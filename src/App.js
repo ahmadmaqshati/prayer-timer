@@ -5,7 +5,7 @@ import MainContent from './Componanats/MainContent';
 
 function App() {
   return (
-    <div className="App" style={{ background: "linear-gradient(#191917fc, #266026)", height: "100vh" }}>
+    <div className="App" style={{/*  background: "linear-gradient(#191917fc, #266026)" */  height: "100vh" }}>
       <MainContent />
     </div>
   );

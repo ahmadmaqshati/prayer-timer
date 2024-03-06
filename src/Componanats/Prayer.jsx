@@ -19,9 +19,9 @@ export default function Prayer({ prayerName, prayerTime, img }) {
                     image={img}
 
 
-                    title="green iguana"
+                    title={prayerName}
                 />
-                <CardContent>
+                <CardContent style={{ background: "antiquewhite" }}>
                     <Typography gutterBottom variant="h6">
                         {prayerName}
                     </Typography>
