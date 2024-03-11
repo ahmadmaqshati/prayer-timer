@@ -5,10 +5,7 @@ import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 
-
-
 export default function Prayer({ prayerName, prayerTime, img }) {
-
     return (
         <>
             <Card sx={{ maxWidth: 345, marginTop: "40px", width: "260px" }}>
@@ -22,7 +19,7 @@ export default function Prayer({ prayerName, prayerTime, img }) {
                     title={prayerName}
                 />
                 <CardContent style={{ background: "antiquewhite" }}>
-                    <Typography gutterBottom variant="h6">
+                    <Typography gutterBottom variant="h6" sx={{}}>
                         {prayerName}
                     </Typography>
                     <Typography variant="h2" style={{ color: "black" }}>
@@ -31,8 +28,6 @@ export default function Prayer({ prayerName, prayerTime, img }) {
                 </CardContent>
 
             </Card>
-            {/*  */}
-
         </>
     )
 }

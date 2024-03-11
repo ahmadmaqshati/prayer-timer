@@ -1,4 +1,3 @@
-
 import Grid from '@mui/material/Unstable_Grid2';
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
@@ -14,12 +13,13 @@ import Select, { SelectChangeEvent } from '@mui/material/Select';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useScrollTrigger } from '@mui/material';
-import moment from 'moment';
+import moment, { duration } from 'moment';
 import 'moment/locale/ar'
-
-
-
 export default function MainContent() {
+	/*=================
+	  States
+	  =================
+	 */
 	const [timings, setTimings] = useState({ Fajr: "", Dhuhr: "", Asr: "", Maghrib: "", Isha: '' })
 	const [selectedCity, setSelectedCity] = useState({
 		englishCity: "Riyāḑ",
@@ -27,8 +27,13 @@ export default function MainContent() {
 	})
 
 	const [today, setToday] = useState('')
-	const [timer, setTimer] = useState(10)
 
+	const [nextPrayerIndex, setNextPrayerIndex] = useState(0)
+	const [remainingTime, setRemainingTime] = useState('')
+	/*==================================================
+	  creat array for cardsData for making mapping and
+	  return cardsData into prayer componanat
+	  ==================================================*/
 	const cardsData = [
 		{
 			id: 1,
@@ -61,6 +66,13 @@ export default function MainContent() {
 			img: '/night.png'
 		}
 	]
+	/*===============================================================
+	  mapping on cardsData array and return data into prayer componant
+	  ================================================================*/
+	const cardsDataDisplay = cardsData.map((card) => {
+		return (<Prayer key={card.id} prayerName={card.prayerName}
+			prayerTime={card.prayerTime} img={card.img} />)
+	})
 
 	const objectCities = [
 		{
@@ -84,11 +96,9 @@ export default function MainContent() {
 			arabicCity: "الشرقية"
 		}
 	]
-	/* if (momentNow.isAfter(moment(timings['Isha'], 'hh:mm'))) {
-				console.log(momentNow.isAfter(moment(timings['Isha'], 'hh:mm')));
-	    
-			} */
-
+	/*====================================================
+	the first useEffect for getting prayer timings from API
+	 =====================================================*/
 	useEffect(() => {
 		axios.get(`https://api.aladhan.com/v1/timingsByCity?country=SA&city=${selectedCity.englishCity}`)
 			.then(function (response) {
@@ -98,26 +108,7 @@ export default function MainContent() {
 
 			})
 
-
 	}, [selectedCity])
-	useEffect(() => {
-		let disInterval = setInterval(() => {
-			setupCountdownTimer()
-		}, 1000);
-
-		setToday(moment().format('MMMM Do YYYY | h:mm'))
-		return () => {
-			clearInterval(disInterval)
-		}
-
-
-
-	}, [])
-
-	const cardsDataDisplay = cardsData.map((card) => {
-		return (<Prayer key={card.id} prayerName={card.prayerName}
-			prayerTime={card.prayerTime} img={card.img} />)
-	})
 
 	function handleCityChange(e) {
 		const cityObject = objectCities.find((city) => {
@@ -125,70 +116,137 @@ export default function MainContent() {
 		});
 		console.log("the new value is ", e.target.value);
 		setSelectedCity(cityObject);
-		/* setSelectedCity(e.target.value) */
 	}
 
-	function setupCountdownTimer() {
-		let momentNow = moment()
-		let nextPrayer = null
+	const prayerArray = [
+		{
+			displayName: 'الفجر',
+			prayerName: "Fajr"
+		},
+		{
+			displayName: 'الظهر',
+			prayerName: "Dhuhr",
+		},
+		{
+			displayName: 'العصر',
+			prayerName: "Asr"
+		},
+		{
+			displayName: 'المغرب',
+			prayerName: 'Isha'
+		},
+		{
+			displayName: 'العشاء',
+			prayerName: "Isha"
+		}
+	]
 
-		const Asr = timings.Asr
-		const AsrMoment = moment(Asr, 'hh:mm')
-		console.log(momentNow.isAfter(AsrMoment));
+	/*====================================================
+	  the second useEffect for making timer for next prayer
+	 =====================================================*/
+	useEffect(() => {
+		setToday(moment().format('MMMM Do YYYY | h:mm'))
+		let disInterval = setInterval(() => {
+			setupCountdownTimer()
+		}, 1000);
+
+		//exract the current time by moment.js
+		setToday(moment().format('MMMM Do YYYY | h:mm'))
+		//==exract the current time by moment.js==//
+
+		//useEffect cleanup//
+		return () => {
+			clearInterval(disInterval)
+		}
+		//==CuseEffect cleanup==//
+
+	}, [timings])
+
+	/*===================================================================
+	Determine or selecte the (next name prayer) by a conditional statement
+	=====================================================================*/
+	function setupCountdownTimer() {
+
+		const momentNow = moment()
+
+		let prayerIndex = 2
 		if (momentNow.isAfter(moment(timings.Fajr, 'hh:mm')) &&
-			momentNow.isBefore(timings.Dhuhr, 'hh:mm')) {
-			console.log('the current timng is:Dhuhr');
+			momentNow.isBefore(moment(timings.Dhuhr, 'hh:mm'))) {
+			prayerIndex = 1
 		}
 		else if (momentNow.isAfter(moment(timings.Dhuhr, 'hh:mm')) &&
-			momentNow.isBefore(timings.Asr, 'hh:mm')) {
-			console.log('the current timng is:Asr');
+			momentNow.isBefore(moment((timings.Asr, 'hh:mm')))) {
+			prayerIndex = 2
 		}
 		else if (momentNow.isAfter(moment(timings.Asr, 'hh:mm')) &&
-			momentNow.isBefore(timings.Maghrib, 'hh:mm')) {
-			console.log('the current timng is:Maghrib');
+			momentNow.isBefore((timings.Maghrib, 'hh:mm'))) {
+			prayerIndex = 3
 		}
 		else if (momentNow.isAfter(moment(timings.Maghrib, 'hh:mm')) &&
-			momentNow.isBefore(timings.Isha, 'hh:mm')) {
-			console.log('the current timng is:Isha');
+			momentNow.isBefore(moment((timings.Isha, 'hh:mm')))) {
+			prayerIndex = 4
 		}
 		else {
-			console.log('the current timng is:Fajr');
+			prayerIndex = 0
+
 		}
+		/* calling setState for storing ( الشرط المحقق اي الصلاة القادمة) into state */
+		setNextPrayerIndex(prayerIndex)
 
+		//now we can setup the countdown timer,how ????
+		//firt after knowing what the (next prayer name is), we must get extract it
+		const nextPrayerName = prayerArray[nextPrayerIndex].prayerName
+		//then we must extract the (next prayer time) based on the (next prayer name)
+		const nextPrayerTime = timings[nextPrayerName]
 
+		/* next prayer time as object */
+		const momentNextPrayerTime = moment(nextPrayerTime, 'hh:mm')
+		//now we can setup the countdown timer by using
+		//the general rule for knowing the remaining time for the next prayer 
+		let calculateRemainingTime = moment(nextPrayerTime, 'hh:mm').diff(momentNow)
+
+		//Remaing Time for Fajr Prayer is a special case, so we make a certain condition
+		if (calculateRemainingTime < 0) {
+			const midnightToCurrentTime = moment('23:59:59', 'hh:mm:ss').diff(momentNow)
+			const fajrToMidnight = momentNextPrayerTime.diff(moment('00:00:00', 'hh:mm:ss'))
+
+			const totalDiff = midnightToCurrentTime + fajrToMidnight
+			calculateRemainingTime = totalDiff
+		}
+		const durationCalculateRemainingTime = moment.duration(calculateRemainingTime)
+		setRemainingTime(`${durationCalculateRemainingTime.hours()}:${durationCalculateRemainingTime.minutes()}: ${durationCalculateRemainingTime.seconds()}`)
 
 	}
 
 	return (
-		<div style={{ position: 'absolute', left: "50%", top: "50%", transform: 'translate(-50%,-50%)' }}>
-			<Grid container>
-				<Grid xs={6}>
-					<Typography variant="h4" style={{ color: "#7F7872" }}>
-						{today}
-					</Typography>
-					<h1>{timer}</h1>
-					<Typography variant="h3" style={{ color: "white" }}>
-						{selectedCity.arabicCity}
-					</Typography>
-
-				</Grid>
-				<Grid xs={6}>
-					<Typography variant="h4" style={{ color: "#7F7872" }}>
-						متبقي حتى صلاة المغرب
-					</Typography>
-					<Typography variant="h3" style={{ color: "white", fontWeight: "900" }}>
-						3 : 24 : 1
-					</Typography>
-				</Grid>
+		<div style={{ position: 'absolute', left: "50%", top: "50%", transform: 'translate(-50%,-50%)' }}>      <Grid container>
+			<Grid xs={6}>
+				<Typography variant="h4" style={{ color: "white", fontSize: "3rem", fontWeight: "900" }}>
+					{today}
+				</Typography>
+				<Typography variant="h3" style={{ color: "white", fontWeight: "900" }}>
+					{selectedCity.arabicCity}
+				</Typography>
 
 			</Grid>
+			<Grid xs={6}>
+				<Typography variant="h4" style={{ color: "white", fontWeight: "900", fontSize: "3rem" }}>
+					متبقي حتى صلاة {prayerArray[nextPrayerIndex].displayName}
+				</Typography>
+
+				<Typography variant="h3" style={{ color: "white", fontWeight: "900", direction: "ltr", fontSize: "4rem" }}>
+					{remainingTime}
+				</Typography>
+			</Grid>
+
+		</Grid>
 			<Divider style={{ border: '1px solid', opacity: "0.2", width: "95%", margin: "auto", marginTop: "25px" }} />
 
 			{/* Prayer Cards */}
 
 			{/*===============================
-            INJECT CARDS-DATA INTO JSX BY STATE
-            ==================================*/}
+              INJECT PRAYER-CARDS-DATA INTO JSX
+              =================================*/}
 			<Stack direction="row" justifyContent="center" gap='20px'>
 				{cardsDataDisplay}
 			</Stack >
@@ -196,7 +254,7 @@ export default function MainContent() {
 			{/*== Prayer Cards ==*/}
 
 
-			{/*  */}
+			{/* Dropdown */}
 			<Stack direction="row" justifyContent="center" >
 				<FormControl style={{ width: "20%", marginTop: "30px" }}>
 					<InputLabel id="demo-simple-select-label" style={{ color: "#4A3620", fontWeight: "900", fontSize: "1.2rem" }}>المدينة</InputLabel>
@@ -209,15 +267,10 @@ export default function MainContent() {
 						}
 					</Select>
 
-
-
 				</FormControl>
 
 			</Stack >
-
-
-			{/*  */}
-
+			{/*==Dropdowns==*/}
 
 		</div>
 	)
