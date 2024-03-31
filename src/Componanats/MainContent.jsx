@@ -15,6 +15,7 @@ import { useEffect, useState } from 'react';
 import { useScrollTrigger } from '@mui/material';
 import moment, { duration } from 'moment';
 import 'moment/locale/ar'
+import './ScreenResponsive.css';
 export default function MainContent() {
 	/*=================
 	  States
@@ -79,22 +80,26 @@ export default function MainContent() {
 			englishCity: "Makkah al Mukarramah",
 			arabicCity: "مكة المكرمة"
 		},
-		{
-			englishCity: "Ar Riyāḑ",
-			arabicCity: "الرياض"
-		},
-		{
-			englishCity: "Dammam",
-			arabicCity: "الدمام"
-		},
+
 		{
 			englishCity: "Cairo",
 			arabicCity: "القاهرة"
 		},
 		{
-			englishCity: "Al shrqia",
-			arabicCity: "الشرقية"
+			englishCity: "Damascus",
+			arabicCity: 'دمشق'
+		},
+		{
+			englishCity: "Palestine",
+			arabicCity: 'فلسطين'
+		},
+		{
+			englishCity: "Iraq",
+			arabicCity: 'عراق'
 		}
+
+
+
 	]
 	/*====================================================
 	the first useEffect for getting prayer timings from API
@@ -172,7 +177,7 @@ export default function MainContent() {
 		let prayerIndex = 2
 		if (momentNow.isAfter(moment(timings.Fajr, 'hh:mm')) &&
 			momentNow.isBefore(moment(timings.Dhuhr, 'hh:mm'))) {
-			prayerIndex = 1
+			prayerIndex = 0
 		}
 		else if (momentNow.isAfter(moment(timings.Dhuhr, 'hh:mm')) &&
 			momentNow.isBefore(moment((timings.Asr, 'hh:mm')))) {
@@ -187,7 +192,7 @@ export default function MainContent() {
 			prayerIndex = 4
 		}
 		else {
-			prayerIndex = 0
+			prayerIndex = 1
 
 		}
 		/* calling setState for storing ( الشرط المحقق اي الصلاة القادمة) into state */
@@ -219,59 +224,78 @@ export default function MainContent() {
 	}
 
 	return (
-		<div style={{ position: 'absolute', left: "50%", top: "50%", transform: 'translate(-50%,-50%)' }}>      <Grid container>
-			<Grid xs={6}>
-				<Typography variant="h4" style={{ color: "white", fontSize: "3rem", fontWeight: "900" }}>
-					{today}
-				</Typography>
-				<Typography variant="h3" style={{ color: "white", fontWeight: "900" }}>
-					{selectedCity.arabicCity}
-				</Typography>
+		<div className='p' >
+			<div className='main-content'>
+				<Grid className='header' container>
+					<Grid xs={6} className='flex'>
+						<Typography variant="h4" style={{ color: "white", fontSize: "3rem", fontWeight: "900" }}>
+							<div className='date'>
+								{today}
+							</div>
 
-			</Grid>
-			<Grid xs={6}>
-				<Typography variant="h4" style={{ color: "white", fontWeight: "900", fontSize: "3rem" }}>
-					متبقي حتى صلاة {prayerArray[nextPrayerIndex].displayName}
-				</Typography>
+						</Typography>
+						<Typography variant="h3" style={{ color: "white", fontWeight: "900" }}>
+							<div className='text'>
+								{selectedCity.arabicCity}
+							</div>
+						</Typography>
 
-				<Typography variant="h3" style={{ color: "white", fontWeight: "900", direction: "ltr", fontSize: "4rem" }}>
-					{remainingTime}
-				</Typography>
-			</Grid>
+					</Grid>
 
-		</Grid>
-			<Divider style={{ border: '1px solid', opacity: "0.2", width: "95%", margin: "auto", marginTop: "25px" }} />
-
-			{/* Prayer Cards */}
-
-			{/*===============================
-              INJECT PRAYER-CARDS-DATA INTO JSX
-              =================================*/}
-			<Stack direction="row" justifyContent="center" gap='20px'>
-				{cardsDataDisplay}
-			</Stack >
-
-			{/*== Prayer Cards ==*/}
+					<Grid xs={6} className='flex'>
+						<Typography>
+							<div className='text'>
+								متبقي حتى صلاة
+								{prayerArray[nextPrayerIndex].displayName}
+							</div>
 
 
-			{/* Dropdown */}
-			<Stack direction="row" justifyContent="center" >
-				<FormControl style={{ width: "20%", marginTop: "30px" }}>
-					<InputLabel id="demo-simple-select-label" style={{ color: "#4A3620", fontWeight: "900", fontSize: "1.2rem" }}>المدينة</InputLabel>
+						</Typography>
 
-					<Select labelId="demo-simple-select-label" id="demo-simple-select" label="المدينة" onChange={handleCityChange}>
-						{
-							objectCities.map((city) => {
-								return <MenuItem value={city.englishCity} >{city.arabicCity}</MenuItem>
-							})
-						}
-					</Select>
+						<Typography className='text' variant="h3" style={{ color: "white", fontWeight: "900", direction: "ltr", fontSize: "4rem" }}>
+							<div className='text'>
+								{remainingTime}
+							</div>
 
-				</FormControl>
+						</Typography>
+					</Grid>
 
-			</Stack >
-			{/*==Dropdowns==*/}
+				</Grid>
+				<Divider style={{ border: '1px solid', opacity: "0.2", width: "95%", margin: "auto", marginTop: "25px" }} />
 
+				{/* Prayer Cards */}
+
+				{/*===============================
+						INJECT PRAYER-CARDS-DATA INTO JSX
+						=================================*/}
+				<Stack /* direction="row" justifyContent="center" gap='20px' */>
+					<div className='prayer-card' style={{ display: "flex", justifyContent: "center", gap: "20px" }}>
+						{cardsDataDisplay}
+					</div>
+				</Stack >
+
+				{/*== Prayer Cards ==*/}
+
+
+				{/* Dropdown */}
+				<Stack direction="row" justifyContent="center" >
+					<FormControl style={{ width: "20%", marginTop: "30px" }}>
+						<InputLabel id="demo-simple-select-label" style={{ color: "#4A3620", fontWeight: "900", fontSize: "1.2rem" }}>المدينة</InputLabel>
+
+						<Select labelId="demo-simple-select-label" id="demo-simple-select" label="المدينة" onChange={handleCityChange}>
+							{
+								objectCities.map((city) => {
+									return <MenuItem value={city.englishCity} >{city.arabicCity}</MenuItem>
+								})
+							}
+						</Select>
+
+					</FormControl>
+
+				</Stack >
+				{/*==Dropdowns==*/}
+
+			</div >
 		</div>
 	)
 }

@@ -1,0 +1,267 @@
+ /*=============== 
+ for small devices 
+ ================*/
+ @media (max-width: 360px) {
+     .prayer-card {
+         display: flex;
+         flex-direction: column;
+         justify-content: center;
+         align-items: center;
+         margin-top: 20px;
+     }
+
+     .p {
+         display: flex;
+         justify-content: center;
+         align-items: center;
+         overflow: hidden
+     }
+
+     .header {
+         width: 100vw;
+         display: flex;
+         justify-content: center;
+         align-items: center;
+         padding-top: 44px;
+     }
+
+     .date,
+     .text {
+         color: white;
+         font-size: 1.1rem;
+         font-weight: 900;
+     }
+
+     .z {
+         max-width: 345;
+         margin-top: 20px;
+         width: 220px
+     }
+
+     .time {
+
+         font-size: 1.8rem !important
+     }
+
+ }
+
+ @media (min-width:361px) and (max-width: 450px) {
+     .prayer-card {
+         display: flex;
+         flex-direction: column;
+         justify-content: center;
+         align-items: center;
+     }
+
+     .p {
+         display: flex;
+         justify-content: center;
+         align-items: center;
+         overflow: hidden
+     }
+
+     .header {
+         width: 100vw;
+         display: flex;
+         justify-content: center;
+         align-items: center;
+         padding-top: 44px;
+     }
+
+     .date,
+     .text {
+         color: white;
+         font-size: 1.3rem;
+         font-weight: 900;
+     }
+
+     .card {
+         max-width: 345;
+         margin-top: 20px;
+         width: 220px
+     }
+
+     .time {
+
+         font-size: 1.8rem !important
+     }
+
+ }
+
+ @media (min-width:451px) and (max-width: 600px) {
+     .prayer-card {
+         display: flex;
+         flex-wrap: wrap;
+         justify-content: center;
+         align-items: center;
+     }
+
+     .p {
+         display: flex;
+         justify-content: center;
+         align-items: center;
+         overflow-x: hidden;
+
+     }
+
+     .header {
+         width: 100vw;
+         display: flex;
+         justify-content: center;
+         align-items: center;
+         padding-top: 44px;
+     }
+
+     .date,
+     .text {
+
+         color: white;
+         font-size: 1.6rem;
+         font-weight: 900;
+
+     }
+
+
+
+     .card {
+         max-width: 345;
+         margin-top: 20px;
+         width: 160px
+     }
+
+     .time {
+
+         font-size: 1.8rem !important
+     }
+
+ }
+
+ @media (min-width:601px) and (max-width: 900px) {
+     .prayer-card {
+         display: flex;
+         flex-wrap: wrap;
+         justify-content: center;
+         align-items: center;
+     }
+
+     .p {
+         display: flex;
+         justify-content: center;
+         align-items: center;
+         height: 100vh;
+     }
+
+     .header {
+         width: 100vw;
+         display: flex;
+         justify-content: center;
+         align-items: center;
+         padding-top: 44px;
+     }
+
+     .date,
+     .text {
+         color: white;
+         font-size: 2.4rem;
+         font-weight: 900;
+     }
+
+     .card {
+         max-width: 345;
+         margin-top: 20px;
+         width: 160px
+     }
+
+     .time {
+         font-size: 1.8rem !important
+     }
+
+ }
+
+ @media (min-width:901px) and (max-width:1100px) {
+     .prayer-card {
+         display: flex;
+         flex-wrap: wrap;
+         justify-content: center;
+         align-items: center;
+     }
+
+     .p {
+         display: flex;
+         justify-content: center;
+         align-items: center;
+         height: 100vh;
+
+     }
+
+     .header {
+         width: 100vw;
+         display: flex;
+         justify-content: center;
+         align-items: center;
+         padding-top: 44px;
+     }
+
+     /* .text {
+         font-size: 1.1rem;
+
+     }
+
+     .date {
+         font-size: 1.1rem;
+     }
+ */
+     .date,
+     .text {
+         color: white;
+         font-size: 2.5rem;
+         font-weight: 900;
+     }
+
+     .card {
+         max-width: 345;
+         margin-top: 20px;
+         width: 160px
+     }
+
+     .time {
+
+         font-size: 1.8rem !important
+     }
+
+ }
+
+ /*=============== 
+ for large devices  
+ ================*/
+ @media (min-width:1101px) and (max-width:2000px) {
+     .prayer-card {
+         display: flex;
+         justify-content: center;
+         align-items: center;
+         flex-wrap: wrap;
+     }
+
+     .p {
+         display: flex;
+         justify-content: center;
+         align-items: center;
+         height: 100vh;
+     }
+
+     .card {
+         max-width: 345;
+         margin-top: 40px;
+         width: 260px
+     }
+
+     .date,
+     .text {
+         color: white;
+         font-size: 3rem;
+         font-weight: 900;
+     }
+
+
+
+ }

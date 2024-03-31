@@ -1,17 +1,19 @@
 html {
   direction: rtl;
+  min-height: 100%;
+  background-image: url('https://images.pexels.com/photos/2900791/pexels-photo-2900791.jpeg?auto=compress&cs=tinysrgb&w=600 ');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
 }
 
+
+
 .App {
-  /* https://images.pexels.com/photos/2900791/pexels-photo-2900791.jpeg?auto=compress&cs=tinysrgb&w=600 */
   text-align: center;
-  background-image: url('https://images.pexels.com/photos/2900791/pexels-photo-2900791.jpeg?auto=compress&cs=tinysrgb&w=600 ');
-  /* height: 100vh;
-  background-repeat: no-repeat;
-  width: 100vw; */
-  background-size: cover;
-  background-position: right;
-  opacity: 0.95;
+
+
 }
 
 .App-logo {
@@ -52,17 +54,18 @@ html {
 
 .MuiOutlinedInput-notchedOutline {
   border-color: #513C26 !important;
-
+  background: radial-gradient(circle, rgb(146 251 63) 0%, rgb(252 70 70) 100%);
 }
 
 .MuiSvgIcon-root {
-
-  color: #4A3620 !important
+  color: #4A3620 !important;
+  z-index: 1;
 }
 
 .MuiButtonBase-root {
   color: #3f3f3a !important;
   font-weight: 900 !important;
+
 
 }
 
