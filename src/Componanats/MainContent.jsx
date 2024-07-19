@@ -1,3 +1,5 @@
+
+import TextField from '@mui/material/TextField';
 import Grid from "@mui/material/Unstable_Grid2";
 import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
@@ -14,33 +16,66 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useScrollTrigger } from "@mui/material";
 import moment, { duration } from "moment";
+
 import "moment/locale/ar";
 import "./ScreenResponsive.css";
+
 export default function MainContent() {
   /*=================
-		States
-		=================
-	   */
+    States
+    =================
+     */
+
+
   const [timings, setTimings] = useState({
-    Fajr: "",
-    Dhuhr: "",
-    Asr: "",
-    Maghrib: "",
-    Isha: "",
+    Fajr: "04:20",
+    Dhuhr: "11:50",
+    Asr: "15:18",
+    Sunset: "18:03",
+    Isha: "19:33",
   });
   const [selectedCity, setSelectedCity] = useState({
     englishCity: "Riyāḑ",
     arabicCity: "الرياض",
   });
+  /* const prayerArray = [
+    {
+      displayName: "الفجر",
+      prayerName: "Fajr",
+    },
+    {
+      displayName: "الظهر",
+      prayerName: "Dhuhr",
+    },
+    {
+      displayName: "العصر",
+      prayerName: "Asr",
+    },
+    {
+      displayName: "المغرب",
+      prayerName: "Isha",
+    },
+    {
+      displayName: "العشاء",
+      prayerName: "Isha",
+    },
+  ]; */
 
+  const prayerArray = [
+    { key: "Fajr", displayName: "الفجر" },
+    { key: "Dhuhr", displayName: "الظهر" },
+    { key: "Asr", displayName: "العصر" },
+    { key: "Sunset", displayName: "المغرب" },
+    { key: "Isha", displayName: "العشاء" },
+  ];
   const [today, setToday] = useState("");
 
-  const [nextPrayerIndex, setNextPrayerIndex] = useState(0);
+  const [nextPrayerIndex, setNextPrayerIndex] = useState(2);
   const [remainingTime, setRemainingTime] = useState("");
   /*==================================================
-		creat array for cardsData for making mapping and
-		return cardsData into prayer componanat
-		==================================================*/
+    creat array for cardsData for making mapping and
+    return cardsData into prayer componanat
+    ==================================================*/
   const cardsData = [
     {
       id: 1,
@@ -74,8 +109,8 @@ export default function MainContent() {
     },
   ];
   /*===============================================================
-		mapping on cardsData array and return data into prayer componant
-		================================================================*/
+    mapping on cardsData array and return data into prayer componant
+    ================================================================*/
   const cardsDataDisplay = cardsData.map((card) => {
     return (
       <Prayer
@@ -87,32 +122,34 @@ export default function MainContent() {
     );
   });
 
-  const objectCities = [
+  const objectCities = [ /* avilableCities=objectCities */
     {
-      englishCity: "Makkah al Mukarramah",
+
       arabicCity: "مكة المكرمة",
+      englishCity: "Makkah al Mukarramah",
     },
 
     {
-      englishCity: "Cairo",
+
       arabicCity: "القاهرة",
+      englishCity: "Cairo",
     },
     {
-      englishCity: "Damascus",
       arabicCity: "دمشق",
+      englishCity: "Damascus",
     },
     {
-      englishCity: "Palestine",
       arabicCity: "فلسطين",
+      englishCity: "Palestine",
     },
     {
-      englishCity: "Iraq",
       arabicCity: "عراق",
+      englishCity: "Iraq",
     },
   ];
   /*====================================================
-	  the first useEffect for getting prayer timings from API
-	   =====================================================*/
+    the first useEffect for getting prayer timings from API
+     =====================================================*/
   useEffect(() => {
     axios
       .get(
@@ -133,32 +170,11 @@ export default function MainContent() {
     setSelectedCity(cityObject);
   }
 
-  const prayerArray = [
-    {
-      displayName: "الفجر",
-      prayerName: "Fajr",
-    },
-    {
-      displayName: "الظهر",
-      prayerName: "Dhuhr",
-    },
-    {
-      displayName: "العصر",
-      prayerName: "Asr",
-    },
-    {
-      displayName: "المغرب",
-      prayerName: "Isha",
-    },
-    {
-      displayName: "العشاء",
-      prayerName: "Isha",
-    },
-  ];
+
 
   /*====================================================
-		the second useEffect for making timer for next prayer
-	   =====================================================*/
+    the second useEffect for making timer for next prayer
+     =====================================================*/
   useEffect(() => {
     setToday(moment().format("MMMM Do YYYY | h:mm"));
     let disInterval = setInterval(() => {
@@ -173,13 +189,13 @@ export default function MainContent() {
     return () => {
       clearInterval(disInterval);
     };
-    //==CuseEffect cleanup==//
+    //==useEffect cleanup==//
   }, [timings]);
 
   /*===================================================================
-	  Determine or selecte the (next name prayer) by a conditional statement
-	  =====================================================================*/
-  function setupCountdownTimer() {
+    Determine or selecte the (next name prayer) by a conditional statement
+    =====================================================================*/
+  const setupCountdownTimer = () => {
     const momentNow = moment();
 
     let prayerIndex = 2;
@@ -187,104 +203,135 @@ export default function MainContent() {
       momentNow.isAfter(moment(timings.Fajr, "hh:mm")) &&
       momentNow.isBefore(moment(timings.Dhuhr, "hh:mm"))
     ) {
-      prayerIndex = 0;
+      prayerIndex = 1;
     } else if (
       momentNow.isAfter(moment(timings.Dhuhr, "hh:mm")) &&
-      momentNow.isBefore(moment((timings.Asr, "hh:mm")))
+      momentNow.isBefore(moment(timings.Asr, "hh:mm"))
     ) {
       prayerIndex = 2;
     } else if (
       momentNow.isAfter(moment(timings.Asr, "hh:mm")) &&
-      momentNow.isBefore((timings.Maghrib, "hh:mm"))
+      momentNow.isBefore(moment(timings.Maghrib, "hh:mm"))
     ) {
       prayerIndex = 3;
     } else if (
       momentNow.isAfter(moment(timings.Maghrib, "hh:mm")) &&
-      momentNow.isBefore(moment((timings.Isha, "hh:mm")))
+      momentNow.isBefore(moment(timings.Isha, "hh:mm"))
     ) {
       prayerIndex = 4;
     } else {
-      prayerIndex = 1;
+      prayerIndex = 0;
     }
     /* calling setState for storing ( الشرط المحقق اي الصلاة القادمة) into state */
     setNextPrayerIndex(prayerIndex);
 
     //now we can setup the countdown timer,how ????
     //firt after knowing what the (next prayer name is), we must get extract it
-    const nextPrayerName = prayerArray[nextPrayerIndex].prayerName;
+    const nextPrayerObject = prayerArray[prayerIndex];
     //then we must extract the (next prayer time) based on the (next prayer name)
-    const nextPrayerTime = timings[nextPrayerName];
+    /*  const nextPrayerTime = timings[nextPrayerName]; */
+    const nextPrayerTime = timings[nextPrayerObject.key];
+    console.log(nextPrayerTime);
+
+
 
     /* next prayer time as object */
-    const momentNextPrayerTime = moment(nextPrayerTime, "hh:mm");
+    /*  const momentNextPrayerTime = moment(nextPrayerTime, "hh:mm"); */
+    const nextPrayerTimeMoment = moment(nextPrayerTime, "hh:mm");
+
+
     //now we can setup the countdown timer by using
     //the general rule for knowing the remaining time for the next prayer
-    let calculateRemainingTime = moment(nextPrayerTime, "hh:mm").diff(
-      momentNow
-    );
+    let remainingTime = moment(nextPrayerTime, "hh:mm").diff(momentNow);
+
+
+
+
 
     //Remaing Time for Fajr Prayer is a special case, so we make a certain condition
-    if (calculateRemainingTime < 0) {
-      const midnightToCurrentTime = moment("23:59:59", "hh:mm:ss").diff(
-        momentNow
-      );
-      const fajrToMidnight = momentNextPrayerTime.diff(
+    if (remainingTime < 0) {
+      const midnightDiff = moment("23:59:59", "hh:mm:ss").diff(momentNow);
+      const fajrToMidnightDiff = nextPrayerTimeMoment.diff(
         moment("00:00:00", "hh:mm:ss")
       );
 
-      const totalDiff = midnightToCurrentTime + fajrToMidnight;
-      calculateRemainingTime = totalDiff;
+      const totalDiffernce = midnightDiff + fajrToMidnightDiff;
+
+      remainingTime = totalDiffernce;
     }
-    const durationCalculateRemainingTime = moment.duration(
+
+
+
+    /* const durationCalculateRemainingTime = moment.duration(
       calculateRemainingTime
     );
     setRemainingTime(
       `${durationCalculateRemainingTime.hours()}:${durationCalculateRemainingTime.minutes()}: ${durationCalculateRemainingTime.seconds()}`
+    ); */
+    const durationRemainingTime = moment.duration(remainingTime);
+    setRemainingTime(
+      `${durationRemainingTime.hours()}:${durationRemainingTime.minutes()}: ${durationRemainingTime.seconds()}`
     );
+    /* setRemainingTime(
+      `${durationRemainingTime.seconds()} : ${durationRemainingTime.minutes()} : ${durationRemainingTime.hours()}`
+    );
+ */
   }
+
+
+
 
   return (
     <div className="p">
       <div className="main-content">
-        <Grid className="header" container>
-          <Grid xs={6} className="flex">
-            <Typography
-              variant="h4"
-              style={{ color: "white", fontSize: "3rem", fontWeight: "900" }}
-            >
-              <div className="date">{today}</div>
-            </Typography>
-            <Typography
-              variant="h3"
-              style={{ color: "white", fontWeight: "900" }}
-            >
-              <div className="text">{selectedCity.arabicCity}</div>
-            </Typography>
+        <div style={{ display: "flex", justifyContent: "center" }}>
+          <Grid className="header" container sx={{ width: "74%" }}>
+            <Grid xs={6} className="flex">
+              <Typography
+                variant="h4"
+                style={{ color: "white", fontSize: "3rem", fontWeight: "900" }}
+              >
+                <div className="date">{today}</div>
+              </Typography>
+              <Typography
+                variant="h3"
+                style={{ color: "white", fontWeight: "900" }}
+              >
+                <div className="text">{selectedCity.arabicCity}</div>
+              </Typography>
+            </Grid>
+
+            <Grid xs={6} className="flex">
+              {/* <div>
+                <h2>
+                  متبقي حتى صلاة{" "}
+                  {prayerArray[nextPrayerIndex].displayName}
+                </h2>
+                <h1>{remainingTime}</h1>
+              </div> */}
+              <Typography>
+                <div className="text">
+                  متبقي حتى صلاة
+                  {prayerArray[nextPrayerIndex].displayName}
+                </div>
+              </Typography>
+
+              <Typography
+                className="text"
+                variant="h3"
+                style={{
+                  color: "white",
+                  fontWeight: "900",
+                  direction: "ltr",
+                  fontSize: "4rem",
+                }}
+              >
+                <div className="text">{remainingTime}</div>
+              </Typography>
+            </Grid>
           </Grid>
 
-          <Grid xs={6} className="flex">
-            <Typography>
-              <div className="text">
-                متبقي حتى صلاة
-                {prayerArray[nextPrayerIndex].displayName}
-              </div>
-            </Typography>
-
-            <Typography
-              className="text"
-              variant="h3"
-              style={{
-                color: "white",
-                fontWeight: "900",
-                direction: "ltr",
-                fontSize: "4rem",
-              }}
-            >
-              <div className="text">{remainingTime}</div>
-            </Typography>
-          </Grid>
-        </Grid>
-        <Divider
+        </div>        <Divider
           style={{
             border: "1px solid",
             opacity: "0.2",
@@ -312,13 +359,14 @@ export default function MainContent() {
 
         {/* Dropdown */}
         <Stack direction="row" justifyContent="center">
-          <FormControl style={{ width: "20%", marginTop: "30px" }}>
+          <FormControl className='select' style={{ width: "20%", marginTop: "30px" }}>
             <InputLabel
               id="demo-simple-select-label"
               style={{
-                color: "#4A3620",
+                color: "black",
                 fontWeight: "900",
-                fontSize: "1.2rem",
+                fontSize: '1.7rem'
+
               }}
             >
               المدينة
@@ -329,19 +377,24 @@ export default function MainContent() {
               id="demo-simple-select"
               label="المدينة"
               onChange={handleCityChange}
+
             >
               {objectCities.map((city) => {
                 return (
-                  <MenuItem value={city.englishCity}>
+                  <MenuItem value={city.englishCity} key={city.englishCity}>
                     {city.arabicCity}
                   </MenuItem>
                 );
               })}
             </Select>
           </FormControl>
+
+
         </Stack>
         {/*==Dropdowns==*/}
       </div>
     </div>
   );
+
 }
+

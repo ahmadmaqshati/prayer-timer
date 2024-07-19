@@ -1,18 +1,16 @@
 html {
   direction: rtl;
   min-height: 100%;
-  background-image: url('http://tarmeezacademy.com/images/posts/M1fipIZqgbgKecn.jpg');
+  background-image: url('https://static.vecteezy.com/system/resources/previews/021/908/670/non_2x/islamic-greetings-ramadan-kareem-card-design-background-with-beautiful-gold-and-3d-mosque-free-photo.jpg');
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
+
 }
 
-/* 'https://images.pexels.com/photos/2900791/pexels-photo-2900791.jpeg?auto=compress&cs=tinysrgb&w=600 ' */
 .App {
   text-align: center;
-
-
 }
 
 .App-logo {
@@ -51,26 +49,101 @@ html {
   }
 }
 
-.MuiOutlinedInput-notchedOutline {
-  border-color: #513C26 !important;
-  background: radial-gradient(circle, rgb(146 251 63) 0%, rgb(252 70 70) 100%);
+.date,
+.text {
+  color: #160a23 !important;
+  text-shadow: 0 5px 73px aliceblue;
 }
 
+h6 {
+  font-size: 2.2rem !important;
+}
+
+/* arrow */
 .MuiSvgIcon-root {
-  color: #4A3620 !important;
-  z-index: 1;
+  color: black !important;
+  font-size: 3.5rem !important;
 }
 
+/* ==arrow== */
+
+/* label */
+.css-14s5rfu-MuiFormLabel-root-MuiInputLabel-root {
+  color: black !important;
+  margin-top: 10px;
+  font-weight: 900 !important;
+  font-size: 1.7rem !important;
+  text-shadow: 0 5px 66px !important;
+
+}
+
+label {
+  font-size: 2.2rem !important;
+  position: absolute !important;
+  top: 0px !important;
+}
+
+/* label */
+/* options */
 .MuiButtonBase-root {
   color: #3f3f3a !important;
   font-weight: 900 !important;
+}
 
+/* options */
+
+.MuiSelect-select {
+  color: black !important;
+  font-weight: 900 !important;
+  font-size: 1.7rem !important;
+}
+
+.css-14lo706>span {
+  padding-left: 24px !important;
+}
+
+.css-1jy569b-MuiFormLabel-root-MuiInputLabel-root.Mui-focused {
+  position: absolute !important;
+  top: -8px !important;
 
 }
 
-.MuiSelect-select {
-  color: #513C26 !important;
-  font-weight: 900 !important;
-  font-size: 1.9rem !important;
+.time {
+  font-size: 4.4rem !important;
+  color: rgba(0, 0, 0, 0.6) !important;
+}
 
+
+
+.card {
+  transition: all 0.7s !important;
+}
+
+.card:hover {
+  transform: scale(1.1);
+}
+
+@font-face {
+  font-family: Marhey;
+  src: url(../public/Marhey-Bold.ttf);
+}
+
+@font-face {
+  font-family: Marhey;
+  src: url(../public/Marhey-Light.ttf);
+}
+
+@font-face {
+  font-family: Marhey;
+  src: url(../public/Marhey-Medium.ttf);
+}
+
+@font-face {
+  font-family: Marhey;
+  src: url(../public/Marhey-Regular.ttf);
+}
+
+@font-face {
+  font-family: Marhey;
+  src: url(../public/Marhey-SemiBold.ttf);
 }
